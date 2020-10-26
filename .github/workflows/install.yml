@@ -1,0 +1,22 @@
+name: install
+on:
+  schedule:
+    - cron:  '0 1 * * *'
+
+jobs:
+  install_sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@2.7.0
+        with:
+          php-version: '7.4'
+          tools: 'composer:2.0.2'
+
+      - name: Check that installing the SDK works
+        run: |
+           cd example
+           composer install
+           php example.php
