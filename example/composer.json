@@ -1,0 +1,5 @@
+{
+    "require": {
+        "tankerhq/identity": "dev-master"
+    }
+}
