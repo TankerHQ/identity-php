@@ -104,3 +104,8 @@ function get_public_identity(string $identity): string
 
     return Internal\tanker_serialize_identity($pub_id_json);
 }
+
+function tanker_upgrade_identity(string $identity): string
+{
+    return Internal\tanker_serialize_identity(Internal\tanker_deserialize_identity($identity));
+}
