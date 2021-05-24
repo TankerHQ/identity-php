@@ -26,6 +26,32 @@ function tanker_generate_user_secret(string $hashed_user_id): string
     return $random . $hashed_byte[0];
 }
 
+// https://stackoverflow.com/questions/173400
+function tanker_array_is_assoc(array $arr)
+{
+    if (array() === $arr) return false;
+    return array_keys($arr) !== range(0, count($arr) - 1);
+}
+
+
+function tanker_to_ordered_json(array $obj): string
+{
+    $keys = array_keys($obj);
+    asort($keys);
+    $json = [];
+    foreach ($keys as $k) {
+        $val = null;
+        if (is_array($k) && tanker_array_is_assoc($k)) {
+            $val = tanker_to_ordered_json($obj[$k]);
+        } else {
+            $val = json_encode($obj[$k]);
+        }
+        array_push($json, "\"$k\":$val");
+    }
+    $result = join(",", $json);
+    return "{{$result}}";
+}
+
 function tanker_deserialize_identity(string $identity): array
 {
     $id_json = base64_decode($identity, true);
@@ -38,3 +64,9 @@ function tanker_deserialize_identity(string $identity): array
     }
     return $id_json;
 }
+
+function tanker_serialize_identity(array $identity): string
+{
+    return base64_encode(tanker_to_ordered_json($identity));
+}
+

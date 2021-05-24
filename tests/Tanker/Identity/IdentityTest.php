@@ -210,5 +210,14 @@ final class IdentityTest extends TestCase
         self::assertEquals($provisional_id['public_encryption_key'], $public_id['public_encryption_key']);
         self::assertEquals($provisional_id['public_signature_key'], $public_id['public_signature_key']);
     }
+
+    public function testOrderedJson(): void
+    {
+        $object = ["c" => 2, "b" => null, "a" => ["x" => 'y']];
+        $expected_json = '{"a":{"x":"y"},"b":null,"c":2}';
+        $b64json = Internal\tanker_serialize_identity($object);
+        $identity_json = base64_decode($b64json);
+        self::assertEquals($identity_json, $expected_json);
+    }
 }
 
