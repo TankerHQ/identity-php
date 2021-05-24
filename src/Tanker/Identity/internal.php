@@ -26,6 +26,43 @@ function tanker_generate_user_secret(string $hashed_user_id): string
     return $random . $hashed_byte[0];
 }
 
+// https://stackoverflow.com/questions/173400
+function tanker_array_is_assoc(array $arr)
+{
+    if (array() === $arr) return false;
+    return array_keys($arr) !== range(0, count($arr) - 1);
+}
+
+function tanker_json_sort($a, $b)
+{
+    $json_order = [
+        "trustchain_id" => 1,
+        "target" => 2,
+        "value" => 3,
+        "delegation_signature" => 4,
+        "ephemeral_public_signature_key" => 5,
+        "ephemeral_private_signature_key" => 6,
+        "user_secret" => 7,
+        "public_encryption_key" => 8,
+        "private_encryption_key" => 9,
+        "public_signature_key" => 10,
+        "private_signature_key" => 11,
+    ];
+    return $json_order[$a] - $json_order[$b];
+}
+
+function tanker_to_ordered_json(array $obj): string
+{
+    $keys = array_keys($obj);
+    usort($keys, "Tanker\\Identity\\Internal\\tanker_json_sort");
+    $json = [];
+    foreach ($keys as $k) {
+        array_push($json, "\"$k\":\"$obj[$k]\"");
+    }
+    $result = join(",", $json);
+    return "{{$result}}";
+}
+
 function tanker_deserialize_identity(string $identity): array
 {
     $id_json = base64_decode($identity, true);
@@ -38,3 +75,9 @@ function tanker_deserialize_identity(string $identity): array
     }
     return $id_json;
 }
+
+function tanker_serialize_identity(array $identity): string
+{
+    return base64_encode(tanker_to_ordered_json($identity));
+}
+

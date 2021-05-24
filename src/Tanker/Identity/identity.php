@@ -40,7 +40,7 @@ function create_identity(string $app_id, string $app_secret, string $user_id): s
         "ephemeral_private_signature_key" => base64_encode(sodium_crypto_sign_secretkey($sign_keypair)),
         "user_secret" => base64_encode($user_secret),
     );
-    return base64_encode(json_encode($identity_json));
+    return Internal\tanker_serialize_identity($identity_json);
 }
 
 /**
@@ -73,7 +73,7 @@ function create_provisional_identity(string $app_id, string $email): string
         "public_signature_key" => base64_encode($sign_pk),
         "private_signature_key" => base64_encode($sign_sk),
     );
-    return base64_encode(json_encode($identity_json));
+    return Internal\tanker_serialize_identity($identity_json);
 }
 
 /**
@@ -102,5 +102,5 @@ function get_public_identity(string $identity): string
             throw new \InvalidArgumentException('Unsupported identity type: ' . $id_json["target"]);
     }
 
-    return base64_encode(json_encode($pub_id_json));
+    return Internal\tanker_serialize_identity($pub_id_json);
 }
