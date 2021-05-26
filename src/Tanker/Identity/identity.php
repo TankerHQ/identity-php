@@ -63,15 +63,17 @@ function create_provisional_identity(string $app_id, string $email): string
     $sign_keypair = sodium_crypto_sign_keypair();
     $sign_pk = sodium_crypto_sign_publickey($sign_keypair);
     $sign_sk = sodium_crypto_sign_secretkey($sign_keypair);
+    $private_salt = random_bytes(TANKER_BLOCK_HASH_SIZE);
 
     $identity_json = array(
         "trustchain_id" => $app_id,
-        "target" => "email",
+        "target" => "hashed_email",
         "value" => $email,
         "public_encryption_key" => base64_encode($encrypt_pk),
         "private_encryption_key" => base64_encode($encrypt_sk),
         "public_signature_key" => base64_encode($sign_pk),
         "private_signature_key" => base64_encode($sign_sk),
+        "private_salt" => $private_salt,
     );
     return base64_encode(json_encode($identity_json));
 }
@@ -97,6 +99,11 @@ function get_public_identity(string $identity): string
         case "email":
             $pub_id_json["public_encryption_key"] = $id_json["public_encryption_key"];
             $pub_id_json["public_signature_key"] = $id_json["public_signature_key"];
+            break;
+        case "hashed_email":
+            $pub_id_json["public_encryption_key"] = $id_json["public_encryption_key"];
+            $pub_id_json["public_signature_key"] = $id_json["public_signature_key"];
+            $pub_id_json["value"] = sodium_crypto_generichash($id_json["private_salt"] + $id_json["value"], TANKER_BLOCK_HASH_SIZE));
             break;
         default:
             throw new \InvalidArgumentException('Unsupported identity type: ' . $id_json["target"]);
