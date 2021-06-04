@@ -13,7 +13,7 @@ final class IdentityTest extends TestCase
     const HASHED_USER_ID = 'RDa0eq4XNuj5tV7hdapjOxhmheTh4QBDNpy4Svy9Xok=';
     const PERMANENT_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJ1c2VyIiwidmFsdWUiOiJSRGEwZXE0WE51ajV0VjdoZGFwak94aG1oZVRoNFFCRE5weTRTdnk5WG9rPSIsImRlbGVnYXRpb25fc2lnbmF0dXJlIjoiVTlXUW9sQ3ZSeWpUOG9SMlBRbWQxV1hOQ2kwcW1MMTJoTnJ0R2FiWVJFV2lyeTUya1d4MUFnWXprTHhINmdwbzNNaUE5cisremhubW9ZZEVKMCtKQ3c9PSIsImVwaGVtZXJhbF9wdWJsaWNfc2lnbmF0dXJlX2tleSI6IlhoM2kweERUcHIzSFh0QjJRNTE3UUt2M2F6TnpYTExYTWRKRFRTSDRiZDQ9IiwiZXBoZW1lcmFsX3ByaXZhdGVfc2lnbmF0dXJlX2tleSI6ImpFRFQ0d1FDYzFERndvZFhOUEhGQ2xuZFRQbkZ1Rm1YaEJ0K2lzS1U0WnBlSGVMVEVOT212Y2RlMEhaRG5YdEFxL2RyTTNOY3N0Y3gwa05OSWZodDNnPT0iLCJ1c2VyX3NlY3JldCI6IjdGU2YvbjBlNzZRVDNzMERrdmV0UlZWSmhYWkdFak94ajVFV0FGZXh2akk9In0=';
     const PROVISIONAL_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJlbWFpbCIsInZhbHVlIjoiYnJlbmRhbi5laWNoQHRhbmtlci5pbyIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Ii8yajRkSTNyOFBsdkNOM3VXNEhoQTV3QnRNS09jQUNkMzhLNk4wcSttRlU9IiwicHJpdmF0ZV9lbmNyeXB0aW9uX2tleSI6IjRRQjVUV212Y0JyZ2V5RERMaFVMSU5VNnRicUFPRVE4djlwakRrUGN5YkE9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJXN1FFUUJ1OUZYY1hJcE9ncTYydFB3Qml5RkFicFQxckFydUQwaC9OclRBPSIsInByaXZhdGVfc2lnbmF0dXJlX2tleSI6IlVtbll1dmRUYUxZRzBhK0phRHBZNm9qdzQvMkxsOHpzbXJhbVZDNGZ1cVJidEFSQUc3MFZkeGNpazZDcnJhMC9BR0xJVUJ1bFBXc0N1NFBTSDgydE1BPT0ifQ==';
-    const PUBLIC_IDENTITY = 'eyJ0YXJnZXQiOiJ1c2VyIiwidHJ1c3RjaGFpbl9pZCI6InRwb3h5TnpoMGhVOUcyaTlhZ012SHl5ZCtwTzZ6R0NqTzlCZmhyQ0xqZDQ9IiwidmFsdWUiOiJSRGEwZXE0WE51ajV0VjdoZGFwak94aG1oZVRoNFFCRE5weTRTdnk5WG9rPSJ9';
+    const PUBLIC_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJ1c2VyIiwidmFsdWUiOiJSRGEwZXE0WE51ajV0VjdoZGFwak94aG1oZVRoNFFCRE5weTRTdnk5WG9rPSJ9';
     const PUBLIC_PROVISIONAL_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJlbWFpbCIsInZhbHVlIjoiYnJlbmRhbi5laWNoQHRhbmtlci5pbyIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Ii8yajRkSTNyOFBsdkNOM3VXNEhoQTV3QnRNS09jQUNkMzhLNk4wcSttRlU9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJXN1FFUUJ1OUZYY1hJcE9ncTYydFB3Qml5RkFicFQxckFydUQwaC9OclRBPSJ9';
     const LOREM_IPSUM_B64 = 'TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQgCg==';
 
@@ -42,6 +42,7 @@ final class IdentityTest extends TestCase
         self::assertEquals('Xh3i0xDTpr3HXtB2Q517QKv3azNzXLLXMdJDTSH4bd4=', $identity['ephemeral_public_signature_key']);
         self::assertEquals('jEDT4wQCc1DFwodXNPHFClndTPnFuFmXhBt+isKU4ZpeHeLTENOmvcde0HZDnXtAq/drM3Ncstcx0kNNIfht3g==', $identity['ephemeral_private_signature_key']);
         self::assertEquals('7FSf/n0e76QT3s0DkvetRVVJhXZGEjOxj5EWAFexvjI=', $identity['user_secret']);
+        self::assertEquals(self::PERMANENT_IDENTITY, Internal\tanker_serialize_identity($identity));
     }
 
     public function testParseValidProvisionalIdentity(): void
@@ -55,6 +56,7 @@ final class IdentityTest extends TestCase
         self::assertEquals('UmnYuvdTaLYG0a+JaDpY6ojw4/2Ll8zsmramVC4fuqRbtARAG70Vdxcik6Crra0/AGLIUBulPWsCu4PSH82tMA==', $identity['private_signature_key']);
         self::assertEquals('/2j4dI3r8PlvCN3uW4HhA5wBtMKOcACd38K6N0q+mFU=', $identity['public_encryption_key']);
         self::assertEquals('4QB5TWmvcBrgeyDDLhULINU6tbqAOEQ8v9pjDkPcybA=', $identity['private_encryption_key']);
+        self::assertEquals(self::PROVISIONAL_IDENTITY, Internal\tanker_serialize_identity($identity));
     }
 
     public function testParseValidPublicIdentity(): void
@@ -64,6 +66,7 @@ final class IdentityTest extends TestCase
         self::assertEquals(self::APP_ID, $identity['trustchain_id']);
         self::assertEquals('user', $identity['target']);
         self::assertEquals(self::HASHED_USER_ID, $identity['value']);
+        self::assertEquals(self::PUBLIC_IDENTITY, Internal\tanker_serialize_identity($identity));
     }
 
     public function testParseValidPublicProvisionalIdentity(): void
@@ -75,6 +78,7 @@ final class IdentityTest extends TestCase
         self::assertEquals(self::USER_EMAIL, $identity['value']);
         self::assertEquals('W7QEQBu9FXcXIpOgq62tPwBiyFAbpT1rAruD0h/NrTA=', $identity['public_signature_key']);
         self::assertEquals('/2j4dI3r8PlvCN3uW4HhA5wBtMKOcACd38K6N0q+mFU=', $identity['public_encryption_key']);
+        self::assertEquals(self::PROVISIONAL_IDENTITY, Internal\tanker_serialize_identity($identity));
     }
 
     protected function assertUserSecret(array $identity): void
