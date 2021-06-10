@@ -11,6 +11,11 @@ function tanker_hash_user_id(string $app_id, string $user_id): string
     return sodium_crypto_generichash($user_id . $app_id, '', TANKER_BLOCK_HASH_SIZE);
 }
 
+function tanker_hash_email(string $email): string
+{
+    return base64_encode(sodium_crypto_generichash($email, '', TANKER_BLOCK_HASH_SIZE));
+}
+
 function tanker_generate_app_id(string $app_secret): string
 {
     $app_creation_nature = "\x01";

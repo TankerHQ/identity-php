@@ -205,12 +205,14 @@ final class IdentityTest extends TestCase
         $public_id = get_public_identity($provisional_id_b64);
         $public_id = Internal\tanker_deserialize_identity($public_id);
 
+        $hashed_email = Internal\tanker_hash_email(self::USER_EMAIL);
+
         $keys = array_keys($public_id);
         sort($keys);
         self::assertEquals(['public_encryption_key', 'public_signature_key', 'target', 'trustchain_id', 'value'], $keys);
         self::assertEquals(self::APP_ID, $public_id['trustchain_id']);
-        self::assertEquals('email', $public_id['target']);
-        self::assertEquals(self::USER_EMAIL, $public_id['value']);
+        self::assertEquals('hashed_email', $public_id['target']);
+        self::assertEquals($hashed_email, $public_id['value']);
         self::assertEquals($provisional_id['public_encryption_key'], $public_id['public_encryption_key']);
         self::assertEquals($provisional_id['public_signature_key'], $public_id['public_signature_key']);
     }

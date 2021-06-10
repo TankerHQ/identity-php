@@ -97,6 +97,8 @@ function get_public_identity(string $identity): string
         case "email":
             $pub_id_json["public_encryption_key"] = $id_json["public_encryption_key"];
             $pub_id_json["public_signature_key"] = $id_json["public_signature_key"];
+            $pub_id_json["target"] = "hashed_email";
+            $pub_id_json["value"] = Internal\tanker_hash_email($id_json["value"]);
             break;
         default:
             throw new \InvalidArgumentException('Unsupported identity type: ' . $id_json["target"]);
