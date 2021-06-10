@@ -107,7 +107,14 @@ function get_public_identity(string $identity): string
     return Internal\tanker_serialize_identity($pub_id_json);
 }
 
-function tanker_upgrade_identity(string $identity): string
+function tanker_upgrade_identity(string $identity_b64): string
 {
-    return Internal\tanker_serialize_identity(Internal\tanker_deserialize_identity($identity));
+    $identity = Internal\tanker_deserialize_identity($identity_b64);
+
+    if ($identity["target"] === "email" && !isset($identity["private_encryption_key"])) {
+        $identity["target"] = "hashed_email";
+        $identity["value"] = Internal\tanker_hash_email($identity["value"]);
+    }
+
+    return Internal\tanker_serialize_identity($identity);
 }
