@@ -1,7 +1,7 @@
 {
     "name": "tankerhq/identity",
     "description": "Building blocks to add Tanker identity management to your application server",
-    "version": "1.0.0",
+    "version": "2.16.0",
     "homepage": "https://tanker.io",
     "license": "Apache-2.0",
     "support": {
