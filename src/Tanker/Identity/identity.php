@@ -45,17 +45,21 @@ function create_identity(string $app_id, string $app_secret, string $user_id): s
 
 /**
  * @param string $app_id The app ID, you can access it from the Tanker dashboard
- * @param string $email The email associated with the provisional identity
+ * @param string $target The type of provisional identity to create
+ * @param string $value The target-specific identifier associated with the provisional identity
  * @return string A provisional identity
  * @throws \InvalidArgumentException
  * @throws \SodiumException
  */
-function create_provisional_identity(string $app_id, string $email): string
+function create_provisional_identity(string $app_id, string $target, string $value): string
 {
     $raw_app_id = base64_decode($app_id, true);
     if ($raw_app_id === false || strlen($raw_app_id) !== Internal\TANKER_BLOCK_HASH_SIZE) {
         throw new \InvalidArgumentException('Invalid app_id argument to create_provisional_identity');
     }
+
+    if ($target !== "email" && $target !== "phone_number")
+        throw new \InvalidArgumentException('Unsupported provisional identity target');
 
     $encrypt_keypair = sodium_crypto_box_keypair();
     $encrypt_pk = sodium_crypto_box_publickey($encrypt_keypair);
@@ -66,8 +70,8 @@ function create_provisional_identity(string $app_id, string $email): string
 
     $identity_json = array(
         "trustchain_id" => $app_id,
-        "target" => "email",
-        "value" => $email,
+        "target" => $target,
+        "value" => $value,
         "public_encryption_key" => base64_encode($encrypt_pk),
         "private_encryption_key" => base64_encode($encrypt_sk),
         "public_signature_key" => base64_encode($sign_pk),
@@ -91,17 +95,20 @@ function get_public_identity(string $identity): string
         "value" => $id_json["value"],
     );
 
-    switch ($id_json["target"]) {
-        case "user":
-            break; // OK, nothing to add
-        case "email":
-            $pub_id_json["public_encryption_key"] = $id_json["public_encryption_key"];
-            $pub_id_json["public_signature_key"] = $id_json["public_signature_key"];
+    if ($id_json["target"] === "user") {
+        // OK, nothing to add
+    } else if (isset($id_json["public_encryption_key"]) && isset($id_json["public_signature_key"])) {
+        if ($id_json["target"] === "email") {
             $pub_id_json["target"] = "hashed_email";
-            $pub_id_json["value"] = Internal\tanker_hash_email($id_json["value"]);
-            break;
-        default:
-            throw new \InvalidArgumentException('Unsupported identity type: ' . $id_json["target"]);
+            $pub_id_json["value"] = Internal\tanker_hash_provisional_identity_email($id_json["value"]);
+        } else {
+            $pub_id_json["value"] = Internal\tanker_hash_provisional_identity_value($id_json["value"], $id_json["private_signature_key"]);
+        }
+
+        $pub_id_json["public_encryption_key"] = $id_json["public_encryption_key"];
+        $pub_id_json["public_signature_key"] = $id_json["public_signature_key"];
+    } else {
+        throw new \InvalidArgumentException('Not a valid Tanker identity');
     }
 
     return Internal\tanker_serialize_identity($pub_id_json);
@@ -113,7 +120,7 @@ function tanker_upgrade_identity(string $identity_b64): string
 
     if ($identity["target"] === "email" && !isset($identity["private_encryption_key"])) {
         $identity["target"] = "hashed_email";
-        $identity["value"] = Internal\tanker_hash_email($identity["value"]);
+        $identity["value"] = Internal\tanker_hash_provisional_identity_email($identity["value"]);
     }
 
     return Internal\tanker_serialize_identity($identity);

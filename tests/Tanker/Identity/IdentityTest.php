@@ -146,7 +146,7 @@ final class IdentityTest extends TestCase
 
     public function testCreateProvisionalIdentity(): void
     {
-        $id = create_provisional_identity(self::APP_ID, self::USER_EMAIL);
+        $id = create_provisional_identity(self::APP_ID, 'email', self::USER_EMAIL);
         $id = Internal\tanker_deserialize_identity($id);
 
         $keys = array_keys($id);
@@ -161,12 +161,12 @@ final class IdentityTest extends TestCase
     {
         // Invalid b64
         $this->assertException(\InvalidArgumentException::class, function () {
-            create_provisional_identity("NOT BASE64", self::USER_ID);
+            create_provisional_identity("NOT BASE64", 'email', self::USER_ID);
         });
 
         // Garbage input
         $this->assertException(\InvalidArgumentException::class, function () {
-            create_provisional_identity(self::LOREM_IPSUM_B64, self::USER_ID);
+            create_provisional_identity(self::LOREM_IPSUM_B64, 'email', self::USER_ID);
         });
     }
 
@@ -200,13 +200,13 @@ final class IdentityTest extends TestCase
 
     public function testGetPublicIdentityFromProvisionalIdentity(): void
     {
-        $provisional_id_b64 = create_provisional_identity(self::APP_ID, self::USER_EMAIL);
+        $provisional_id_b64 = create_provisional_identity(self::APP_ID, 'email', self::USER_EMAIL);
         $provisional_id = Internal\tanker_deserialize_identity($provisional_id_b64);
 
         $public_id = get_public_identity($provisional_id_b64);
         $public_id = Internal\tanker_deserialize_identity($public_id);
 
-        $hashed_email = Internal\tanker_hash_email(self::USER_EMAIL);
+        $hashed_email = Internal\tanker_hash_provisional_identity_email(self::USER_EMAIL);
 
         $keys = array_keys($public_id);
         sort($keys);
