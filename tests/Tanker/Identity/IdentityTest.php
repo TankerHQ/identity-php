@@ -10,12 +10,16 @@ final class IdentityTest extends TestCase
     const APP_PUBLIC_KEY = 'r6oz1Rpl3dsMGu8te0LT02YZ/G8W9NeQmQv3uGSO/jE=';
     const USER_ID = 'b_eich';
     const USER_EMAIL = 'brendan.eich@tanker.io';
+    const USER_PHONE = '+33611223344';
     const HASHED_USER_ID = 'RDa0eq4XNuj5tV7hdapjOxhmheTh4QBDNpy4Svy9Xok=';
     const PERMANENT_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJ1c2VyIiwidmFsdWUiOiJSRGEwZXE0WE51ajV0VjdoZGFwak94aG1oZVRoNFFCRE5weTRTdnk5WG9rPSIsImRlbGVnYXRpb25fc2lnbmF0dXJlIjoiVTlXUW9sQ3ZSeWpUOG9SMlBRbWQxV1hOQ2kwcW1MMTJoTnJ0R2FiWVJFV2lyeTUya1d4MUFnWXprTHhINmdwbzNNaUE5cisremhubW9ZZEVKMCtKQ3c9PSIsImVwaGVtZXJhbF9wdWJsaWNfc2lnbmF0dXJlX2tleSI6IlhoM2kweERUcHIzSFh0QjJRNTE3UUt2M2F6TnpYTExYTWRKRFRTSDRiZDQ9IiwiZXBoZW1lcmFsX3ByaXZhdGVfc2lnbmF0dXJlX2tleSI6ImpFRFQ0d1FDYzFERndvZFhOUEhGQ2xuZFRQbkZ1Rm1YaEJ0K2lzS1U0WnBlSGVMVEVOT212Y2RlMEhaRG5YdEFxL2RyTTNOY3N0Y3gwa05OSWZodDNnPT0iLCJ1c2VyX3NlY3JldCI6IjdGU2YvbjBlNzZRVDNzMERrdmV0UlZWSmhYWkdFak94ajVFV0FGZXh2akk9In0=';
     const PROVISIONAL_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJlbWFpbCIsInZhbHVlIjoiYnJlbmRhbi5laWNoQHRhbmtlci5pbyIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Ii8yajRkSTNyOFBsdkNOM3VXNEhoQTV3QnRNS09jQUNkMzhLNk4wcSttRlU9IiwicHJpdmF0ZV9lbmNyeXB0aW9uX2tleSI6IjRRQjVUV212Y0JyZ2V5RERMaFVMSU5VNnRicUFPRVE4djlwakRrUGN5YkE9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJXN1FFUUJ1OUZYY1hJcE9ncTYydFB3Qml5RkFicFQxckFydUQwaC9OclRBPSIsInByaXZhdGVfc2lnbmF0dXJlX2tleSI6IlVtbll1dmRUYUxZRzBhK0phRHBZNm9qdzQvMkxsOHpzbXJhbVZDNGZ1cVJidEFSQUc3MFZkeGNpazZDcnJhMC9BR0xJVUJ1bFBXc0N1NFBTSDgydE1BPT0ifQ==';
     const PUBLIC_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJ1c2VyIiwidmFsdWUiOiJSRGEwZXE0WE51ajV0VjdoZGFwak94aG1oZVRoNFFCRE5weTRTdnk5WG9rPSJ9';
     const OLD_PUBLIC_PROVISIONAL_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJlbWFpbCIsInZhbHVlIjoiYnJlbmRhbi5laWNoQHRhbmtlci5pbyIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Ii8yajRkSTNyOFBsdkNOM3VXNEhoQTV3QnRNS09jQUNkMzhLNk4wcSttRlU9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJXN1FFUUJ1OUZYY1hJcE9ncTYydFB3Qml5RkFicFQxckFydUQwaC9OclRBPSJ9';
     const PUBLIC_PROVISIONAL_IDENTITY = 'eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJoYXNoZWRfZW1haWwiLCJ2YWx1ZSI6IjB1MmM4dzhFSVpXVDJGelJOL3l5TTVxSWJFR1lUTkRUNVNrV1ZCdTIwUW89IiwicHVibGljX2VuY3J5cHRpb25fa2V5IjoiLzJqNGRJM3I4UGx2Q04zdVc0SGhBNXdCdE1LT2NBQ2QzOEs2TjBxK21GVT0iLCJwdWJsaWNfc2lnbmF0dXJlX2tleSI6Ilc3UUVRQnU5RlhjWElwT2dxNjJ0UHdCaXlGQWJwVDFyQXJ1RDBoL05yVEE9In0=';
+    const PHONE_NUMBER_PROVISIONAL_IDENTITY = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJwaG9uZV9udW1iZXIiLCJ2YWx1ZSI6IiszMzYxMTIyMzM0NCIsInB1YmxpY19lbmNyeXB0aW9uX2tleSI6Im42bTlYNUxmMFpuYXo4ZjArc2NoTElCTm0rcGlQaG5zWXZBdlh3MktFQXc9IiwicHJpdmF0ZV9lbmNyeXB0aW9uX2tleSI6InRWVFM5bkh4cjJNZFZ1VFI1Y2x3dzBFWGJ3aXM4SGl4Z1BJTmJRSngxVTQ9IiwicHVibGljX3NpZ25hdHVyZV9rZXkiOiJqcklEaWdTQ25BaTNHbDltSUFTbEFpU2hLQzdkQkxGVVpQOUN4TEdzYkg4PSIsInByaXZhdGVfc2lnbmF0dXJlX2tleSI6IlFIcWNMcjhicjZNM2JQblFtUWczcStxSENycDA1RGJjQnBMUGFUWlkwYTZPc2dPS0JJS2NDTGNhWDJZZ0JLVUNKS0VvTHQwRXNWUmsvMExFc2F4c2Z3PT0ifQ==";
+    const PHONE_NUMBER_PUBLIC_PROVISIONAL_IDENTITY = "eyJ0cnVzdGNoYWluX2lkIjoidHBveHlOemgwaFU5RzJpOWFnTXZIeXlkK3BPNnpHQ2pPOUJmaHJDTGpkND0iLCJ0YXJnZXQiOiJwaG9uZV9udW1iZXIiLCJ2YWx1ZSI6IkplYWlRQWg4eDdqY2lvVTJtNGloeStDc0hKbHlXKzRWVlNTczVTSEZVVHc9IiwicHVibGljX2VuY3J5cHRpb25fa2V5IjoibjZtOVg1TGYwWm5hejhmMCtzY2hMSUJObStwaVBobnNZdkF2WHcyS0VBdz0iLCJwdWJsaWNfc2lnbmF0dXJlX2tleSI6ImpySURpZ1NDbkFpM0dsOW1JQVNsQWlTaEtDN2RCTEZVWlA5Q3hMR3NiSDg9In0=";
+
     const LOREM_IPSUM_B64 = 'TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQgCg==';
 
     // https://stackoverflow.com/a/46972615/1401962
@@ -60,6 +64,20 @@ final class IdentityTest extends TestCase
         self::assertEquals(self::PROVISIONAL_IDENTITY, Internal\tanker_serialize_identity($identity));
     }
 
+    public function testParseValidProvisionalPhoneNumberIdentity(): void
+    {
+        $identity = Internal\tanker_deserialize_identity(self::PHONE_NUMBER_PROVISIONAL_IDENTITY);
+
+        self::assertEquals(self::APP_ID, $identity['trustchain_id']);
+        self::assertEquals('phone_number', $identity['target']);
+        self::assertEquals(self::USER_PHONE, $identity['value']);
+        self::assertEquals('jrIDigSCnAi3Gl9mIASlAiShKC7dBLFUZP9CxLGsbH8=', $identity['public_signature_key']);
+        self::assertEquals('QHqcLr8br6M3bPnQmQg3q+qHCrp05DbcBpLPaTZY0a6OsgOKBIKcCLcaX2YgBKUCJKEoLt0EsVRk/0LEsaxsfw==', $identity['private_signature_key']);
+        self::assertEquals('n6m9X5Lf0Znaz8f0+schLIBNm+piPhnsYvAvXw2KEAw=', $identity['public_encryption_key']);
+        self::assertEquals('tVTS9nHxr2MdVuTR5clww0EXbwis8HixgPINbQJx1U4=', $identity['private_encryption_key']);
+        self::assertEquals(self::PHONE_NUMBER_PROVISIONAL_IDENTITY, Internal\tanker_serialize_identity($identity));
+    }
+
     public function testParseValidPublicIdentity(): void
     {
         $identity = Internal\tanker_deserialize_identity(self::PUBLIC_IDENTITY);
@@ -80,6 +98,22 @@ final class IdentityTest extends TestCase
         self::assertEquals('W7QEQBu9FXcXIpOgq62tPwBiyFAbpT1rAruD0h/NrTA=', $identity['public_signature_key']);
         self::assertEquals('/2j4dI3r8PlvCN3uW4HhA5wBtMKOcACd38K6N0q+mFU=', $identity['public_encryption_key']);
         self::assertEquals(self::PROVISIONAL_IDENTITY, Internal\tanker_serialize_identity($identity));
+    }
+
+    public function testParseValidPhoneNumberPublicProvisionalIdentity(): void
+    {
+        $identity = Internal\tanker_deserialize_identity(self::PHONE_NUMBER_PUBLIC_PROVISIONAL_IDENTITY);
+        $private_identity = Internal\tanker_deserialize_identity(self::PHONE_NUMBER_PROVISIONAL_IDENTITY);
+        $hashed_phone = Internal\tanker_hash_provisional_identity_value(self::USER_PHONE, $private_identity['private_signature_key']);
+        
+        self::assertEquals(self::APP_ID, $identity['trustchain_id']);
+        self::assertEquals('phone_number', $identity['target']);
+        self::assertEquals($hashed_phone, $identity['value']);
+        self::assertEquals('jrIDigSCnAi3Gl9mIASlAiShKC7dBLFUZP9CxLGsbH8=', $identity['public_signature_key']);
+        self::assertEquals('n6m9X5Lf0Znaz8f0+schLIBNm+piPhnsYvAvXw2KEAw=', $identity['public_encryption_key']);
+
+        self::assertEquals(self::PHONE_NUMBER_PUBLIC_PROVISIONAL_IDENTITY, get_public_identity(self::PHONE_NUMBER_PROVISIONAL_IDENTITY));
+        self::assertEquals(self::PHONE_NUMBER_PUBLIC_PROVISIONAL_IDENTITY, Internal\tanker_serialize_identity($identity));
     }
 
     protected function assertUserSecret(array $identity): void
@@ -157,11 +191,29 @@ final class IdentityTest extends TestCase
         self::assertEquals(self::USER_EMAIL, $id['value']);
     }
 
+    public function testCreateProvisionalIdentityPhoneNumber(): void
+    {
+        $id = create_provisional_identity(self::APP_ID, 'phone_number', self::USER_PHONE);
+        $id = Internal\tanker_deserialize_identity($id);
+
+        $keys = array_keys($id);
+        sort($keys);
+        self::assertEquals(['private_encryption_key', 'private_signature_key', 'public_encryption_key', 'public_signature_key', 'target', 'trustchain_id', 'value'], $keys);
+        self::assertEquals(self::APP_ID, $id['trustchain_id']);
+        self::assertEquals('phone_number', $id['target']);
+        self::assertEquals(self::USER_PHONE, $id['value']);
+    }
+
     public function testCreateProvisionalIdentityInvalidArguments(): void
     {
         // Invalid b64
         $this->assertException(\InvalidArgumentException::class, function () {
             create_provisional_identity("NOT BASE64", 'email', self::USER_ID);
+        });
+
+        // Invalid target
+        $this->assertException(\InvalidArgumentException::class, function () {
+            create_provisional_identity(self::APP_ID, 'INVALID', self::USER_ID);
         });
 
         // Garbage input
