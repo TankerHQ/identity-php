@@ -50,17 +50,17 @@ function tanker_array_is_assoc(array $arr)
 function tanker_json_sort($a, $b)
 {
     $json_order = [
-        "trustchain_id" => 1,
-        "target" => 2,
-        "value" => 3,
-        "delegation_signature" => 4,
-        "ephemeral_public_signature_key" => 5,
-        "ephemeral_private_signature_key" => 6,
-        "user_secret" => 7,
-        "public_encryption_key" => 8,
-        "private_encryption_key" => 9,
-        "public_signature_key" => 10,
-        "private_signature_key" => 11,
+        'trustchain_id' => 1,
+        'target' => 2,
+        'value' => 3,
+        'delegation_signature' => 4,
+        'ephemeral_public_signature_key' => 5,
+        'ephemeral_private_signature_key' => 6,
+        'user_secret' => 7,
+        'public_encryption_key' => 8,
+        'private_encryption_key' => 9,
+        'public_signature_key' => 10,
+        'private_signature_key' => 11,
     ];
     return $json_order[$a] - $json_order[$b];
 }
@@ -68,12 +68,12 @@ function tanker_json_sort($a, $b)
 function tanker_to_ordered_json(array $obj): string
 {
     $keys = array_keys($obj);
-    usort($keys, "Tanker\\Identity\\Internal\\tanker_json_sort");
+    usort($keys, 'Tanker\Identity\Internal\tanker_json_sort');
     $json = [];
     foreach ($keys as $k) {
         array_push($json, "\"$k\":\"$obj[$k]\"");
     }
-    $result = join(",", $json);
+    $result = join(',', $json);
     return "{{$result}}";
 }
 
