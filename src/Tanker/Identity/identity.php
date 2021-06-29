@@ -102,6 +102,7 @@ function get_public_identity(string $identity): string
             $pub_id_json['target'] = 'hashed_email';
             $pub_id_json['value'] = Internal\tanker_hash_provisional_identity_email($id_json['value']);
         } else {
+            $pub_id_json['target'] = 'hashed_' . $pub_id_json['target'];
             $pub_id_json['value'] = Internal\tanker_hash_provisional_identity_value($id_json['value'], $id_json['private_signature_key']);
         }
 
