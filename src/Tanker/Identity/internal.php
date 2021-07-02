@@ -11,9 +11,18 @@ function tanker_hash_user_id(string $app_id, string $user_id): string
     return sodium_crypto_generichash($user_id . $app_id, '', TANKER_BLOCK_HASH_SIZE);
 }
 
-function tanker_hash_email(string $email): string
+function tanker_hash_provisional_identity_email(string $email): string
 {
     return base64_encode(sodium_crypto_generichash($email, '', TANKER_BLOCK_HASH_SIZE));
+}
+
+function tanker_hash_provisional_identity_value(string $value, string $private_signature_key): string
+{
+    $private_signature_key_binary = base64_decode($private_signature_key, true);
+    if ($private_signature_key_binary === false)
+        throw new \InvalidArgumentException('Invalid identity private signature key');
+    $hash_salt = sodium_crypto_generichash($private_signature_key_binary, '', TANKER_BLOCK_HASH_SIZE);
+    return base64_encode(sodium_crypto_generichash($hash_salt . $value, '', TANKER_BLOCK_HASH_SIZE));
 }
 
 function tanker_generate_app_id(string $app_secret): string
@@ -41,17 +50,17 @@ function tanker_array_is_assoc(array $arr)
 function tanker_json_sort($a, $b)
 {
     $json_order = [
-        "trustchain_id" => 1,
-        "target" => 2,
-        "value" => 3,
-        "delegation_signature" => 4,
-        "ephemeral_public_signature_key" => 5,
-        "ephemeral_private_signature_key" => 6,
-        "user_secret" => 7,
-        "public_encryption_key" => 8,
-        "private_encryption_key" => 9,
-        "public_signature_key" => 10,
-        "private_signature_key" => 11,
+        'trustchain_id' => 1,
+        'target' => 2,
+        'value' => 3,
+        'delegation_signature' => 4,
+        'ephemeral_public_signature_key' => 5,
+        'ephemeral_private_signature_key' => 6,
+        'user_secret' => 7,
+        'public_encryption_key' => 8,
+        'private_encryption_key' => 9,
+        'public_signature_key' => 10,
+        'private_signature_key' => 11,
     ];
     return $json_order[$a] - $json_order[$b];
 }
@@ -59,12 +68,12 @@ function tanker_json_sort($a, $b)
 function tanker_to_ordered_json(array $obj): string
 {
     $keys = array_keys($obj);
-    usort($keys, "Tanker\\Identity\\Internal\\tanker_json_sort");
+    usort($keys, 'Tanker\Identity\Internal\tanker_json_sort');
     $json = [];
     foreach ($keys as $k) {
         array_push($json, "\"$k\":\"$obj[$k]\"");
     }
-    $result = join(",", $json);
+    $result = join(',', $json);
     return "{{$result}}";
 }
 
