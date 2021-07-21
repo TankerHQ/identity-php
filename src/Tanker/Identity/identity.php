@@ -97,7 +97,7 @@ function get_public_identity(string $identity): string
 
     if ($id_json['target'] === 'user') {
         // OK, nothing to add
-    } else if (isset($id_json['public_encryption_key']) && isset($id_json['public_signature_key'])) {
+    } else {
         if ($id_json['target'] === 'email') {
             $pub_id_json['target'] = 'hashed_email';
             $pub_id_json['value'] = Internal\tanker_hash_provisional_identity_email($id_json['value']);
@@ -108,8 +108,6 @@ function get_public_identity(string $identity): string
 
         $pub_id_json['public_encryption_key'] = $id_json['public_encryption_key'];
         $pub_id_json['public_signature_key'] = $id_json['public_signature_key'];
-    } else {
-        throw new \InvalidArgumentException('Not a valid Tanker identity');
     }
 
     return Internal\tanker_serialize_identity($pub_id_json);
