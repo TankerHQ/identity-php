@@ -1,7 +1,7 @@
 github_url = "https://github.com/TankerHQ/identity-php"
 
 [version]
-current = "2.16.0"
+current = "3.0.0"
 
 regex = '''
   (dev)
